@@ -1,0 +1,43 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.2.0", "wheel", "setuptools_scm[toml]>=3.4.3"]
+
+[project]
+name = "firefucks"
+description = "A tool for patching Firefox Web Browser into allowing unsigned addons."
+readme = "ReadMe.md"
+keywords = ["firefox", "icewasel", "mozilla", "webextensions"]
+license = {text = "Unlicense"}
+authors = [{name = "KOLANICH"}]
+requires-python = ">=3.4"
+dependencies = [
+  "esprima", # @ git+https://github.com/Kronuz/esprima-python
+  #"jscodegen", # @ git+https://github.com/ksons/jscodegen.py
+  "escodegen", # @ git+https://github.com/0o120/escodegen-python
+  "libzip", # @ git+https://codeberg.org/KOLANICH-libs/libzip.py
+]
+dynamic = ["version"]
+classifiers = [
+	"Programming Language :: Python",
+	"Programming Language :: Python :: 3",
+	"Development Status :: 4 - Beta",
+	"Environment :: Other Environment",
+	"Intended Audience :: Developers",
+	"License :: Public Domain",
+	"Operating System :: OS Independent",
+	"Topic :: Software Development :: Libraries :: Python Modules",
+]
+[project.urls]
+Homepage = "https://codeberg.org/KOLANICH-tools/firefucks.py"
+
+[project.scripts]
+firefucks = "firefucks.__main__:main"
+
+[tool.setuptools]
+zip-safe = true
+include-package-data = false
+
+[tool.setuptools.packages]
+find = {namespaces = false}
+
+[tool.setuptools_scm]

@@ -1,0 +1,7 @@
+{
+	"MOZ_REQUIRE_SIGNING": false,
+	"MOZ_DEV_EDITION": true,
+	"MOZ_TELEMETRY_REPORTING": false,
+	"MOZ_CRASHREPORTER": false,
+	"MOZ_DATA_REPORTING": false
+}
