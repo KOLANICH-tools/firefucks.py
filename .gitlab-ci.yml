@@ -1,0 +1,51 @@
+image: registry.gitlab.com/kolanich-subgroups/docker-images/fixed_python:latest
+
+variables:
+  DOCKER_DRIVER: overlay2
+  SAST_ANALYZER_IMAGE_TAG: latest
+  SAST_DISABLE_DIND: "true"
+  SAST_CONFIDENCE_LEVEL: 5
+  CODECLIMATE_VERSION: latest
+
+include:
+  - template: SAST.gitlab-ci.yml
+  - template: Code-Quality.gitlab-ci.yml
+  - template: License-Management.gitlab-ci.yml
+
+build:
+  tags:
+    - shared
+    - linux
+  stage: build
+  variables:
+    GIT_DEPTH: "1"
+    PYTHONUSERBASE: ${CI_PROJECT_DIR}/python_user_packages
+
+  before_script:
+    - export PATH="$PATH:$PYTHONUSERBASE/bin" # don't move into `variables`
+    - apt-get update
+    # todo:
+    #- apt-get -y install 
+    #- pip3 install --upgrade 
+    #- python3 ./fix_python_modules_paths.py
+
+  script:
+    - python3 -m build -nw bdist_wheel
+    - mv ./dist/*.whl ./dist/firefucks-0.CI-py3-none-any.whl
+    - pip3 install --upgrade ./dist/*.whl
+    - coverage run --source=firefucks -m --branch pytest --junitxml=./rspec.xml ./tests/test.py
+    - coverage report -m
+    - coverage xml
+
+  coverage: "/^TOTAL(?:\\s+\\d+){4}\\s+(\\d+%).+/"
+
+  cache:
+    paths:
+      - $PYTHONUSERBASE
+
+  artifacts:
+    paths:
+      - dist
+    reports:
+      junit: ./rspec.xml
+      cobertura: ./coverage.xml
