@@ -1,5 +1,6 @@
 import typing
 from pathlib import Path, PurePath
+from warnings import warn
 
 import esprima
 import escodegen
@@ -11,6 +12,10 @@ from libzip.Source import Source
 from .constants import appConstraintsInternalPath, omniJaLinuxPath
 from .json import json
 from .patcher import patchAppConstants
+
+
+warn("We have moved from M$ GitHub to https://codeberg.org/KOLANICH-tools/firefucks.py , read why on https://codeberg.org/KOLANICH/Fuck-GuanTEEnomo .")
+
 
 # pylint:disable=too-few-public-methods
 
